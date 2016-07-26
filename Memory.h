@@ -29,7 +29,7 @@ namespace miniSTL
 
 		unique_ptr(unique_ptr&& up) : data_(nullptr) {
 			miniSTL::swap(data_, up.data_());
-		}
+		}                                                              
 
 		unique_ptr& operator=(unique_ptr&& up){
 			if (this != &up){
@@ -93,7 +93,7 @@ namespace miniSTL
 		explicit shared_ptr(T* ptr = nullptr) : ref_(new ref_t<T>(ptr)) {}
 
 		template <class D>
-		shared_ptr(T* p, D del) : ref_t(new ref_t<T, del>(P)) {}
+		shared_ptr(T* p, D del) : ref_t(new ref_t<T, del>(p)) {}
 
 		shared_ptr(const shared_ptr& sp){
 			copy_ref(sp.ref_);
@@ -140,6 +140,11 @@ namespace miniSTL
 	private:
 		ref_t<T>* ref_;
 	};
+
+	template <class T, class... Args>
+	shared_ptr<T> make_shared(Args&&... args) {
+		return shared_ptr<T>(new T(std::forward<Args>(args)...));
+	}
 }
 
 

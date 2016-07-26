@@ -63,6 +63,18 @@
     <ClInclude Include="Test\VectorTest.h">
       <Filter>Test</Filter>
     </ClInclude>
+    <ClInclude Include="Unordered_set.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="List.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Detail\List.impl.h">
+      <Filter>Detail</Filter>
+    </ClInclude>
+    <ClInclude Include="Test\ListTest.h">
+      <Filter>Test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -72,6 +84,9 @@
       <Filter>Detail</Filter>
     </ClCompile>
     <ClCompile Include="Test\VectorTest.cpp">
+      <Filter>Test</Filter>
+    </ClCompile>
+    <ClCompile Include="Test\ListTest.cpp">
       <Filter>Test</Filter>
     </ClCompile>
   </ItemGroup>

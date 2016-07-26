@@ -34,6 +34,8 @@ namespace miniSTL
 
 		//构造 复制 析构相关函数
 		vector() : start_(0), finish_(0), endOfStorage_(0) {}
+		vector(std::initializer_list<T> it);
+
 		explicit vector(const size_type n);
 		vector(const size_type n, const value_type& value);
 
@@ -44,6 +46,7 @@ namespace miniSTL
 		vector(vector&& v);
 
 		vector& operator=(const vector& v);
+		vector& operator=(std::initializer_list<T> it);
 		vector& operator=(vector&& v);
 		~vector();
 
@@ -87,6 +90,8 @@ namespace miniSTL
 
 		template <class InputIterator>
 		void insert(iterator position, InputIterator first, InputIterator last);
+
+		void insert(iterator position, std::initializer_list<T> it);
 		
 		iterator erase(iterator position);
 		iterator erase(iterator first, iterator last);

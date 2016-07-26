@@ -3,6 +3,11 @@
 
 namespace miniSTL 
 {
+	template <class T, class Alloc>
+	vector<T, Alloc>::vector(std::initializer_list<T> it){
+		allocateAndCopy(it.begin(), it.end());
+	}
+
 	template<class T, class Alloc>
 	vector<T, Alloc>::~vector() {
 		destoryAndDeallocateAll();
@@ -38,17 +43,25 @@ namespace miniSTL
 	}
 
 	template<class T, class Alloc>
-	vector<T, Alloc>& vector<T, Alloc>::operator = (const vector& v) {
+	vector<T, Alloc>& vector<T, Alloc>::operator= (const vector& v) {
 		if (this != &v) {
+			destoryAndDeallocateAll();
 			allocateAndCopy(v.start_, v.finish_);
 		}
 		return *this;
 	}
 
 	template<class T, class Alloc>
-	vector<T, Alloc>& vector<T, Alloc>::operator = (vector&& v) {
+	vector<T, Alloc>& vector<T, Alloc>::operator= (std::initializer_list<T> it) {
+		destoryAndDeallocateAll();
+		allocateAndCopy(it.begin(), it.end());
+		return *this;
+	}
+
+	template<class T, class Alloc>
+	vector<T, Alloc>& vector<T, Alloc>::operator= (vector&& v) {
 		if (this != &v) {
-			destroyAndDeallocateAll();
+			destoryAndDeallocateAll();
 			start_ = v.start_;
 			finish_ = v.finish_;
 			endOfStorage_ = v.endOfStorage_;
@@ -60,7 +73,7 @@ namespace miniSTL
 	template<class T, class Alloc>
 	void vector<T, Alloc>::resize(size_type n, value_type val = value_type()) {
 		if (n < size()) {
-			dataAllocator::destory(start_ + n, finish_);
+			dataAllocator::destroy(start_ + n, finish_);
 			finish_ = start_ + n;
 		}
 		else if (n > size() && n <= capacity()) {
@@ -201,6 +214,11 @@ namespace miniSTL
 		insert_aux(position, n, val, typename std::is_integral<size_type>::type());
 	}
 
+	template <class T, class Alloc>
+	void vector<T, Alloc>::insert(iterator position, std::initializer_list<T> it) {
+		insert_aux(position, it.begin(), it.end(), std::false_type());
+	}
+
 	template<class T, class Alloc>
 	typename vector<T, Alloc>::iterator vector<T, Alloc>::insert(iterator position, const value_type& val) {
 		const auto index = position - begin();
@@ -272,13 +290,13 @@ namespace miniSTL
 	template<class T, class Alloc>
 	void vector<T, Alloc>::pop_back() {
 		--finish_;
-		dataAllocator::destory(finish_);
+		dataAllocator::destroy(finish_);
 	}
 
 	template<class T, class Alloc>
 	void vector<T, Alloc>::destoryAndDeallocateAll() {
 		if (capacity() != 0) {
-			dataAllocator::destory(start_, finish_);
+			dataAllocator::destroy(start_, finish_);
 			dataAllocator::deallocate(start_, capacity());
 		}
 	}

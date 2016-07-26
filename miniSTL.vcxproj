@@ -89,6 +89,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_SCL_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -150,20 +151,25 @@
     <ClInclude Include="Alloc.h" />
     <ClInclude Include="Allocator.h" />
     <ClInclude Include="Construct.h" />
+    <ClInclude Include="Detail\List.impl.h" />
     <ClInclude Include="Detail\Ref.h" />
     <ClInclude Include="Detail\Vector.impl.h" />
     <ClInclude Include="Iterator.h" />
+    <ClInclude Include="List.h" />
     <ClInclude Include="Memory.h" />
+    <ClInclude Include="Test\ListTest.h" />
     <ClInclude Include="Test\TestUtil.h" />
     <ClInclude Include="Test\VectorTest.h" />
     <ClInclude Include="TypeTraits.h" />
     <ClInclude Include="UninitializedFunctions.h" />
+    <ClInclude Include="Unordered_set.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Detail\Alloc.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Test\ListTest.cpp" />
     <ClCompile Include="Test\VectorTest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
