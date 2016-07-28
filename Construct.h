@@ -13,7 +13,7 @@ namespace miniSTL
 	}
 
 	template<class T>
-	inline void destory(T* ptr){
+	inline void destroy(T* ptr){
 		ptr->~T();
 	}
 
@@ -24,11 +24,11 @@ namespace miniSTL
 	inline void _destroy(ForwardIterator first, ForwardIterator last, _false_type)
 	{
 		for(; first != last; ++first)
-			destory(&*first);
+			destroy(&*first);
 	}
 
 	template<class ForwardIterator>
-	inline void destory(ForwardIterator first, ForwardIterator last){
+	inline void destroy(ForwardIterator first, ForwardIterator last){
 		typedef typename _type_traits<ForwardIterator>::is_POD_type is_POD_type;
 		_destroy(first, last, is_POD_type());
 	}

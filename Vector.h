@@ -132,5 +132,6 @@ namespace miniSTL
 		friend bool operator!=(const vector<T, Alloc>& v1, const vector<T, Alloc>& v2);
 	};
 }
+
 #include "Detail\Vector.impl.h"
 #endif

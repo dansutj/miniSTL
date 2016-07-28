@@ -54,9 +54,6 @@
     <ClInclude Include="Utility.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Detail\Vector.impl.h">
-      <Filter>Detail</Filter>
-    </ClInclude>
     <ClInclude Include="Test\TestUtil.h">
       <Filter>Test</Filter>
     </ClInclude>
@@ -75,6 +72,39 @@
     <ClInclude Include="Test\ListTest.h">
       <Filter>Test</Filter>
     </ClInclude>
+    <ClInclude Include="Functional.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Detail\Unordered_set.impl.h">
+      <Filter>Detail</Filter>
+    </ClInclude>
+    <ClInclude Include="Test\Unordered_setTest.h">
+      <Filter>Test</Filter>
+    </ClInclude>
+    <ClInclude Include="Deque.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Detail\Vector.impl.h">
+      <Filter>Detail</Filter>
+    </ClInclude>
+    <ClInclude Include="Detail\Deque.impl.h">
+      <Filter>Detail</Filter>
+    </ClInclude>
+    <ClInclude Include="Test\DequeTest.h">
+      <Filter>Test</Filter>
+    </ClInclude>
+    <ClInclude Include="Queue.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Test\PriorityQueueTest.h">
+      <Filter>Test</Filter>
+    </ClInclude>
+    <ClInclude Include="Test\QueueTest.h">
+      <Filter>Test</Filter>
+    </ClInclude>
+    <ClInclude Include="Stack.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -87,6 +117,18 @@
       <Filter>Test</Filter>
     </ClCompile>
     <ClCompile Include="Test\ListTest.cpp">
+      <Filter>Test</Filter>
+    </ClCompile>
+    <ClCompile Include="Test\Unordered_setTest.cpp">
+      <Filter>Test</Filter>
+    </ClCompile>
+    <ClCompile Include="Test\DequeTest.cpp">
+      <Filter>Test</Filter>
+    </ClCompile>
+    <ClCompile Include="Test\PriorityQueueTest.cpp">
+      <Filter>Test</Filter>
+    </ClCompile>
+    <ClCompile Include="Test\QueueTest.cpp">
       <Filter>Test</Filter>
     </ClCompile>
   </ItemGroup>

@@ -151,14 +151,24 @@
     <ClInclude Include="Alloc.h" />
     <ClInclude Include="Allocator.h" />
     <ClInclude Include="Construct.h" />
+    <ClInclude Include="Deque.h" />
+    <ClInclude Include="Detail\Deque.impl.h" />
     <ClInclude Include="Detail\List.impl.h" />
     <ClInclude Include="Detail\Ref.h" />
+    <ClInclude Include="Detail\Unordered_set.impl.h" />
     <ClInclude Include="Detail\Vector.impl.h" />
+    <ClInclude Include="Functional.h" />
     <ClInclude Include="Iterator.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Memory.h" />
+    <ClInclude Include="Queue.h" />
+    <ClInclude Include="Stack.h" />
+    <ClInclude Include="Test\DequeTest.h" />
     <ClInclude Include="Test\ListTest.h" />
+    <ClInclude Include="Test\PriorityQueueTest.h" />
+    <ClInclude Include="Test\QueueTest.h" />
     <ClInclude Include="Test\TestUtil.h" />
+    <ClInclude Include="Test\Unordered_setTest.h" />
     <ClInclude Include="Test\VectorTest.h" />
     <ClInclude Include="TypeTraits.h" />
     <ClInclude Include="UninitializedFunctions.h" />
@@ -169,7 +179,11 @@
   <ItemGroup>
     <ClCompile Include="Detail\Alloc.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Test\DequeTest.cpp" />
     <ClCompile Include="Test\ListTest.cpp" />
+    <ClCompile Include="Test\PriorityQueueTest.cpp" />
+    <ClCompile Include="Test\QueueTest.cpp" />
+    <ClCompile Include="Test\Unordered_setTest.cpp" />
     <ClCompile Include="Test\VectorTest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

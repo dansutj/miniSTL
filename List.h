@@ -20,14 +20,13 @@ namespace miniSTL
 			T data;
 			Node* prev;
 			Node* next;
-			list<T>* container;
 
-			Node(const T& d, Node* p, Node* n, list<T>* c) :
-				data(d), prev(p), next(n), container(c) {}
+			Node(const T& d, Node* p, Node* n) :
+				data(d), prev(p), next(n) {}
 
 			bool operator == (const Node& n){
 				return data == n.data && prev == n.prev &&
-					next == n.next && container == n.container;
+					next == n.next;
 			}
 		};
 

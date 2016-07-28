@@ -18,10 +18,12 @@ namespace miniSTL
 		for (; first != last; ++first)
 			*first = value;
 	}
+
 	inline void fill(char *first, char *last, const char& value)
 	{
 		memset(first, static_cast<unsigned char>(value), last - first);
 	}
+
 	inline void fill(wchar_t *first, wchar_t *last, const wchar_t& value)
 	{
 		memset(first, static_cast<unsigned char>(value), (last - first) * sizeof(wchar_t));
@@ -53,6 +55,113 @@ namespace miniSTL
 		return first + n;
 	}
 
+	/*
+	* make_heap
+	* Algorithm Complexity: O(N)
+	*/
+	template<class RandomAccessIterator, class Compare>
+	static void up(RandomAccessIterator first, RandomAccessIterator last,
+	RandomAccessIterator head, Compare comp) 
+	{
+		if (first != last) 
+		{
+			int idx = last - head - 1;
+			auto pIdx = (idx - 1) / 2;
+
+			for (auto cur = last - 1; pIdx >= 0 && cur != head; pIdx = (idx - 1) / 2) 
+			{
+				auto parent = head + pIdx;
+				if (comp(*parent, *cur))
+					miniSTL::swap(*parent, *cur);
+				cur = parent;
+				idx = cur - head;
+			}
+		}
+	}
+
+	template<class RandomAccessIterator, class Compare>
+	static void down(RandomAccessIterator first, RandomAccessIterator last,
+	RandomAccessIterator head, Compare comp)
+	{
+		if (first != last) 
+		{
+			auto idx = first - head;
+			auto cIdx = idx * 2 + 1;
+			for (auto cur = first; cIdx < (last - head) && cur != last; cIdx = idx * 2 + 1) 
+			{
+				auto child = head + cIdx;
+				if ((child + 1) < last && *(child + 1) > *child)
+					child = child + 1;
+
+				if (comp(*cur, *child))
+					miniSTL::swap(*cur, *child);
+				cur = child;
+				idx = cur - head;
+			}
+		}
+	}
+
+	template <class RandomAccessIterator>
+	void make_heap(RandomAccessIterator first, RandomAccessIterator last) {
+		make_heap(first, last,
+			typename miniSTL::less<miniSTL::iterator_traits<RandomAccessIterator>::value_type>());
+	}
+
+	template <class RandomAccessIterator, class Compare>
+	void make_heap(RandomAccessIterator first, RandomAccessIterator last, Compare comp) {
+		const auto range = last - first;
+		for (auto cur = first + range / 2; cur >= first; --cur) {
+			down(cur, last, first, comp);
+		}
+	}
+
+	/*
+	* push_heap
+	* Algorithm Complexity: O(N)
+	*/
+	template <class RandomAccessIterator>
+	void push_heap(RandomAccessIterator first, RandomAccessIterator last) {
+		push_heap(first, last,
+			miniSTL::less<typename miniSTL::iterator_traits<RandomAccessIterator>::value_type>());
+	}
+
+	template <class RandomAccessIterator, class Compare>
+	void push_heap(RandomAccessIterator first, RandomAccessIterator last, Compare comp) {
+		up(first, last, first, comp);
+	}
+
+	/*
+	* pop_heap
+	* Algorithm Complexity: O(N)
+	*/
+	template <class RandomAccessIterator>
+	void pop_heap(RandomAccessIterator first, RandomAccessIterator last) {
+		pop_heap(first, last,
+			miniSTL::less<typename miniSTL::iterator_traits<RandomAccessIterator>::value_type>());
+	}
+
+	template <class RandomAccessIterator, class Compare>
+	void pop_heap(RandomAccessIterator first, RandomAccessIterator last, Compare comp) {
+		miniSTL::swap(*first, *(last - 1));
+		if (last - first > 2)
+			down(first, last - 1, first, comp);
+	}
+
+	/*
+	* sort_heap
+	* Algorithm Complexity: O(N)
+	*/
+	template <class RandomAccessIterator>
+	void sort_heap(RandomAccessIterator first, RandomAccessIterator last) {
+		return miniSTL::sort_heap(first, last,
+			miniSTL::less<typename miniSTL::iterator_traits<RandomAccessIterator>::value_type>());
+	}
+	template <class RandomAccessIterator, class Compare>
+	void sort_heap(RandomAccessIterator first, RandomAccessIterator last, Compare comp) {
+		for (auto cur = last; cur != first; --cur) {
+			pop_heap(first, cur, comp);
+		}
+	}
 	/*
 	 * accumulate
 	 * Algorithm Complexity: O(N)
@@ -236,45 +345,43 @@ namespace miniSTL
 	 * sort
 	 * Algorithm Complexity: O(NlogN)
 	 */	
-	namespace {
-		template <class RandomIterator, class BinaryPredicate>
-		typename iterator_traits<RandomIterator>::value_type
-			mid3(RandomIterator first, RandomIterator last, BinaryPredicate pred){
-			auto mid = first + (last + 1 - first) / 2;
-			
-			if(pred(*mid, *first)){
-				swap(*mid, *first);
-			}
+	template <class RandomIterator, class BinaryPredicate>
+	static typename iterator_traits<RandomIterator>::value_type
+		mid3(RandomIterator first, RandomIterator last, BinaryPredicate pred) {
+		auto mid = first + (last + 1 - first) / 2;
 
-			if(pred(*last, *mid)){
-				swap(*last, *mid);
-			}
-
-			if(pred(*last, *first)){
-				swap(*last, *first);
-			}
-
-			auto ret = *mid;
-			swap(*mid, *(last - 1));
-			return ret;
+		if (pred(*mid, *first)) {
+			swap(*mid, *first);
 		}
 
-		template <class RandomIterator, class BinaryPredicate>
-		void bubble_sort(RandomIterator first, RandomIterator last, BinaryPredicate pred){
-			auto len = last - first;
-			for(auto i = len; i != 0; --i)
+		if (pred(*last, *mid)) {
+			swap(*last, *mid);
+		}
+
+		if (pred(*last, *first)) {
+			swap(*last, *first);
+		}
+
+		auto ret = *mid;
+		swap(*mid, *(last - 1));
+		return ret;
+	}
+
+	template <class RandomIterator, class BinaryPredicate>
+	static void bubble_sort(RandomIterator first, RandomIterator last, BinaryPredicate pred) {
+		auto len = last - first;
+		for (int i = 0; i != len - 1; ++i)
+		{
+			bool swaped = false;
+			for (auto p = first; p != (last - i - 1); ++p)
 			{
-				bool swaped = false;
-				for(auto p = first; p != (first + i - 1); ++p)
-				{
-					if(pred(*(p + 1), *p)){
-						swap(*(p + 1), *p);
-						swaped = true;
-					}
+				if (pred(*(p + 1), *p)) {
+					swap(*(p + 1), *p);
+					swaped = true;
 				}
-				if(!swaped) 
-					break;
 			}
+			if (!swaped)
+				break;
 		}
 	}
 
@@ -319,6 +426,7 @@ namespace miniSTL
 		advance(result, dist);
 		return result;
 	}
+
 	template<class InputIterator, class OutputIterator>
 	OutputIterator __copy(InputIterator first, InputIterator last, OutputIterator result, _false_type) {
 		while (first != last) {
@@ -328,21 +436,25 @@ namespace miniSTL
 		}
 		return result;
 	}
+
 	template<class InputIterator, class OutputIterator, class T>
 	OutputIterator _copy(InputIterator first, InputIterator last, OutputIterator result, T*) {
 		typedef typename miniSTL::_type_traits<T>::is_POD_type is_pod;
 		return __copy(first, last, result, is_pod());
 	}
+
 	template <class InputIterator, class OutputIterator>
 	OutputIterator copy(InputIterator first, InputIterator last, OutputIterator result) {
 		return _copy(first, last, result, value_type(first));
 	}
+
 	template<>
 	inline char *copy(char *first, char *last, char *result) {
 		auto dist = last - first;
 		memcpy(result, first, sizeof(*first) * dist);
 		return result + dist;
 	}
+
 	template<>
 	inline wchar_t *copy(wchar_t *first, wchar_t *last, wchar_t *result) {
 		auto dist = last - first;
