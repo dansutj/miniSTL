@@ -346,25 +346,22 @@ namespace miniSTL
 	 * Algorithm Complexity: O(NlogN)
 	 */	
 	template <class RandomIterator, class BinaryPredicate>
-	static typename iterator_traits<RandomIterator>::value_type
-		mid3(RandomIterator first, RandomIterator last, BinaryPredicate pred) {
-		auto mid = first + (last + 1 - first) / 2;
+	static void mid3(RandomIterator first, RandomIterator last, BinaryPredicate pred) {
+		auto mid = first + (last - first) / 2;
 
 		if (pred(*mid, *first)) {
 			swap(*mid, *first);
 		}
 
-		if (pred(*last, *mid)) {
-			swap(*last, *mid);
+		if (pred(*(last - 1), *mid)) {
+			swap(*(last - 1), *mid);
 		}
 
-		if (pred(*last, *first)) {
-			swap(*last, *first);
+		if (pred(*(last - 1), *first)) {
+			swap(*(last - 1), *first);
 		}
 
-		auto ret = *mid;
-		swap(*mid, *(last - 1));
-		return ret;
+		swap(*mid, *first);
 	}
 
 	template <class RandomIterator, class BinaryPredicate>
@@ -391,29 +388,33 @@ namespace miniSTL
 	}
 
 	template <class RandomIterator, class BinaryPredicate>
-	void sort(RandomIterator first, RandomIterator last, BinaryPredicate pred){
-		if(first >= last || first + 1 == last)
+	void sort(RandomIterator first, RandomIterator last, BinaryPredicate pred) {
+		if (first >= last || first + 1 == last)
 			return;
 
-		if(last - first <= 20)
-			return bubble_sort(first, last, pred);
-
-		auto mid = mid3(first, last - 1, pred);
-		auto p1 = first, p2 = last - 2;
-
-		while(p1 < p2)
+		if (last - first <= 20)//区间长度小于等于20的采用冒泡排序更快
 		{
-			while(pred(*p1, mid) && (p1 < p2)) ++p1;
-			while(!pred(*p2, mid) && (p1 < p2)) --p2;
-			if(p1 < p2){
-				swap(*p1, *p2);
-			}
+			bubble_sort(first, last, pred);
+			return;
 		}
-		swap(*p1, *(last - 2));
-		sort(first, p1, pred);
-		sort(p1 + 1, last, pred);
-	}
 
+		mid3(first, last, pred);
+		auto p1 = first;
+		auto p2 = last;
+
+		while (p1 < p2)
+		{
+			while ((p1 < last - 1) && pred(*++p1, *first));
+			while ((first < p2) && !pred(*--p2, *first));
+
+			if (p1 >= p2) break;
+			swap(*p1, *p2);
+		}
+
+		swap(*p2, *first);
+		sort(first, p2, pred);
+		sort(p2 + 1, last, pred);
+	}
 
 	/*
 	 * copy
