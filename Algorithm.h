@@ -19,14 +19,16 @@ namespace miniSTL
 			*first = value;
 	}
 
+	template<>
 	inline void fill(char *first, char *last, const char& value)
 	{
-		memset(first, static_cast<unsigned char>(value), last - first);
+		memset(first, value, last - first);
 	}
 
+	template<>
 	inline void fill(wchar_t *first, wchar_t *last, const wchar_t& value)
 	{
-		memset(first, static_cast<unsigned char>(value), (last - first) * sizeof(wchar_t));
+		memset(first, value, (last - first) * sizeof(wchar_t));
 	}
 
 	/*
