@@ -113,14 +113,10 @@ namespace miniSTL
 
 	template<class T, class Alloc>
 	typename vector<T, Alloc>::iterator vector<T, Alloc>::erase(iterator first, iterator last) {
-		difference_type lenOfTail = end() - last;
-		difference_type lenOfRemoved = last - first;
-		finish_ = finish_ - lenOfRemoved;
-		for (; lenOfTail != 0; --lenOfTail) {
-			auto temp = (last - lenOfRemoved);
-			*temp = *(last++);
-		}
-		return (first);
+		auto it = miniSTL::copy(last, finish_, first);
+		dataAllocator::destroy(it, finish_);
+		finish_ = finish_ - (last - first);
+		return first;
 	}
 
 	template<class T, class Alloc>
