@@ -250,7 +250,6 @@ namespace miniSTL
 
 	template<class T, class Alloc>
 	bool operator == (const vector<T, Alloc>& v1, const vector<T, Alloc>& v2) {
-		//return v1 == v2;
 		return v1.operator==(v2);
 	}
 
